@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CommentRequest;
 use App\Models\Article;
 use App\Services\CommentService;
+use Symfony\Component\HttpFoundation\Response;
 
 class CommentController extends Controller
 {
@@ -12,8 +13,8 @@ class CommentController extends Controller
 
     public function store(Article $article, CommentRequest $request)
     {
-        $article->comments()->create($request->validated());
+        $comment = $article->comments()->create($request->validated());
 
-        return back();
+        return response()->json($comment, Response::HTTP_CREATED);
     }
 }
